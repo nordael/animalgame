@@ -1,0 +1,138 @@
+Ao executar
+
+//LOOP PRINCIPAL
+Exibe uma caixa de mensagem com um botão OK e a mensagem "Pense num animal"
+
+    1. Ao Clicar botão OK
+
+        - Exibe uma caixa de mensagem com botões Yes e No, Mensagem "O animal que vc pensou vive na água?" e Titulo "Confirm"
+                
+        1.1 Ao clicar no botão Yes
+            - Exibe uma caixa de mensagem com botões Yes e No, Mensagem "O animal que você pensou" + nomeAnimal + "?", Titulo "Confirm"
+                nomeAnimal = "Tubarão"
+        //INICIO DO LOOP - ENQUANTO HOUVER NOME NO CONJUNTO "VIVE NA AGUA" E BOTÂO "NO" FAÇA:
+
+            //SE O ALGORITMO ENCONTROU O NOME DO ANIMAL QUE PENSOU E BOTÃO YES
+            1.1.1 Ao clicar no botão Yes
+                - Exibe uma caixa de mensagem com botão OK, Mensagem "Acertei de novo!", Titulo "Jogo dos Animais"
+                //VOLTA LOOP PRINCIPAL
+                Ao Clicar botão OK
+                    1. Retorna para a caixa de mensagem inicial.
+            //SENÂO
+            1.1.2 Ao clicar no botão No
+                //SENÃO, SE O CONJUNTO "VIVE NA AGUA" É VAZIO & BOTÃO "NO"
+                - Exibe uma caixa de mensagem com botões OK, Cancel e uma Caixa de Entrada, Mensagem "Qual animal vc pensou?", Titulo "Desisto"
+                - Entrar com o nomeNovoAnimal = "Baleia"
+
+                1.1.2.1 Ao clicar no botão Ok
+                    - Exibe uma caixa de mensagem com botões OK, Cancel e uma Caixa de Entrada, Mensagem "Um(a)" + nomeNovoAnimal + " ___ mas um(a)" 
+                        + nomeAnimal + "não?",Titulo "Complete"
+                        nomeNovoAnimal = "Baleia"; nomeAnimal="Macaco"
+                    
+                    1.1.2.1.1 Ao clicar no botão Ok SEM PREENCHER o campo de edição
+                        - ARMAZENA o valor da Caixa de Entrada
+                        - Retorna para a caixa de mensagem inicial.                        
+
+                    1.1.2.1.2 Ao clicar no botão Ok PREENCHENDO o campo de edição
+
+                1.1.2.2 Ao clicar no botão Cancel
+                    - Exibe uma caixa de mensagem com botões OK, Cancel e uma Caixa de Entrada, Mensagem "Um(a) ___ mas um(a)" + nomeAnimal + "não?", 
+                        Titulo "Complete"
+                        nomeAnimal = Tubarão
+
+                    1.1.2.2.1 Ao clicar no Botão OK
+                        - Volta para a caixa de mensagem inicial
+
+        Ao clicar no botão No
+            1. Exibe uma caixa de mensagem com botões Yes e No, Mensagem "O animal que você pensou" + nomeAnimal + "?", Titulo "Confirm"
+                nomeAnimal = "Macaco"
+            Ao clicar no botão Yes
+                1. Exibe uma caixa de mensagem com botão OK, Mensagem "Acertei de novo!", Titulo "Jogo dos Animais"
+                Ao Clicar botão OK
+                    1. Retorna para a caixa de mensagem inicial.
+            Ao clicar no botão No
+
+==============
+bkp
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package animalgame;
+ 
+import javax.swing.JOptionPane;
+
+
+/**
+ *
+ * @author julio
+ */
+public class AnimalGame {
+    
+   
+    public static void main( String[] args ){
+        String options[] = {"OK"};
+        int hasClosed, choice;
+        
+         hasClosed = JOptionPane.showOptionDialog( null, "Pense em um animal", "Jogo dos Animais",
+                JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0] );
+        
+        while( hasClosed != JOptionPane.CLOSED_OPTION ){
+            
+            choice = JOptionPane.showConfirmDialog( null, "O animal que você pensou vive na água?",
+                                "Jogo dos Animais", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE );
+            
+            if ( choice == JOptionPane.YES_OPTION ){
+                waterAnimals = getAnimals( Animals.WATERTYPE );
+                waterAttr = getAnimalAttributes ( waterAnimals.getLast() );
+                
+                do{
+
+                    if ( waterAnimals.size() > 1 ){
+                        
+                        do {
+                            choice = JOptionPane.showConfirmDialog( null, "O animal que você pensou "+ waterAttr.getLast() +"?",
+                                    "Jogo dos Animais", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE );
+                            
+                            if( choice == JOptionPane.YES_OPTION ){
+                                waterAttr.removeLast();
+                                
+                            }
+                            
+                        }while ( ( waterAttr.size() > 1 ) && ( choice == JOptionPane.YES_OPTION ) );
+                        
+                    }                    
+                    
+                    if ( ( choice == JOptionPane.YES_OPTION )  && ( waterAttr.size() == 1 ) ){ //não precisa avaliar waterAttr.size()
+                            
+                        choice = JOptionPane.showConfirmDialog( null, "O animal que você pensou é "+ waterAnimals.getLast() +"?",
+                                "Jogo dos Animais", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE );
+                           
+                        if( choice == JOptionPane.YES_OPTION ){
+                            JOptionPane.showMessageDialog( null, "Acertei de novo!", "Jogo dos Animais", JOptionPane.OK_OPTION, null );
+                        }
+                           
+                    } else {
+                            waterAnimals.removeLast();
+                            waterAttr = getAnimalAttributes ( waterAnimals.getLast() );
+                             
+                    }
+                    
+                }while( true );
+                
+            } else if ( choice == JOptionPane.NO_OPTION ) {
+                
+                
+            }
+            
+            
+            hasClosed = JOptionPane.showOptionDialog( null, "Pense em um animal", "Animais",
+                JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0] );
+        }
+       
+    }
+}
+
+
